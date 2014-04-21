@@ -28,6 +28,10 @@
 #import "AppDelegate.h"
 #import "RootViewController.h"
 
+#import "pushHelper.h"
+#import "BPush.h"
+
+
 @implementation AppController
 
 #pragma mark -
@@ -78,6 +82,28 @@ static AppDelegate s_sharedApplication;
     cocos2d::Director::getInstance()->setOpenGLView(glview);
 
     cocos2d::Application::getInstance()->run();
+    
+    //push
+    [BPush setupChannel:launchOptions];
+    [BPush setDelegate:self];
+    
+    [application registerForRemoteNotificationTypes:
+     UIRemoteNotificationTypeAlert
+     | UIRemoteNotificationTypeBadge
+     | UIRemoteNotificationTypeSound];
+    
+    [application setApplicationIconBadgeNumber:0];
+    
+    //启动时收到push delay 5s派发
+    NSDictionary * userInfo = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
+    if(userInfo) {
+        [application setApplicationIconBadgeNumber:0];
+        NSLog(@"LaunchOptionsRemoteNotification:%@",[userInfo description]);
+        
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            pushHelper::sharedPushHelper()->applicationDidFinishLaunchingWithNotification([[userInfo description] cStringUsingEncoding:NSUTF8StringEncoding]);
+        });
+    }
 
     return YES;
 }
@@ -138,5 +164,53 @@ static AppDelegate s_sharedApplication;
     [super dealloc];
 }
 
+#pragma mark -
+#pragma mark push
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+    
+    [BPush registerDeviceToken:deviceToken]; // 必须
+    
+    [BPush bindChannel]; // 必须。可以在其它时机调用，只有在该方法返回（通过onMethod:response:回调）绑定成功时，app才能接收到Push消息。一个app绑定成功至少一次即可（如果access token变更请重新绑定）。
+    
+    NSLog(@"push deviceToken:%@",deviceToken);
+    
+    pushHelper::sharedPushHelper()->applicationDidRegisterForRemoteNotificationsWithDeviceToken([[deviceToken description] cStringUsingEncoding:NSUTF8StringEncoding]);
+    
+    
+}
+
+- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
+    
+    pushHelper::sharedPushHelper()->applicationdidFailToRegisterForRemoteNotificationsWithError([[error description] cStringUsingEncoding:NSUTF8StringEncoding]);
+}
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
+    NSLog(@"Receive Notify: %@", [userInfo description]);
+    [application setApplicationIconBadgeNumber:0];
+    
+    pushHelper::sharedPushHelper()->applicationDidReceiveRemoteNotification([[userInfo description] cStringUsingEncoding:NSUTF8StringEncoding]);
+    
+}
+
+// 必须，如果正确调用了setDelegate，在bindChannel之后，结果在这个回调中返回。
+// 若绑定失败，请进行重新绑定，确保至少绑定成功一次
+- (void) onMethod:(NSString*)method response:(NSDictionary*)data
+{
+    if ([BPushRequestMethod_Bind isEqualToString:method])
+    {
+        NSDictionary* res = [[NSDictionary alloc] initWithDictionary:data];
+        
+        NSString *appid = [res valueForKey:BPushRequestAppIdKey];
+        NSString *userid = [res valueForKey:BPushRequestUserIdKey];
+        NSString *channelid = [res valueForKey:BPushRequestChannelIdKey];
+        int returnCode = [[res valueForKey:BPushRequestErrorCodeKey] intValue];
+        NSString *requestid = [res valueForKey:BPushRequestRequestIdKey];
+        
+        NSLog(@"appid=%@\n,userid=%@\n,channelid=%@\n,requestid=%@\n,returnCode=%d",appid,userid,channelid,requestid,returnCode);
+        if (returnCode > 0) {
+            NSLog(@"XXXXXXXXXXXXXXXXXXX===BPushError");
+        }
+    }
+}
 
 @end
