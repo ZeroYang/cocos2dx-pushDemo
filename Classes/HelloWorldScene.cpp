@@ -1,4 +1,5 @@
 #include "HelloWorldScene.h"
+#include "push.h"
 
 USING_NS_CC;
 
@@ -88,4 +89,45 @@ void HelloWorld::menuCloseCallback(Ref* pSender)
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     exit(0);
 #endif
+}
+
+void HelloWorld::onEnter()
+{
+    addNotificationListener();
+}
+
+void HelloWorld::onExit()
+{
+    removeNotificationListener();
+}
+
+void HelloWorld::addNotificationListener()
+{
+    notification_listener =  EventListenerCustom::create(NOTIFICATION_EVENT, [=](EventCustom* event){
+        char* buf = static_cast<char*>(event->getUserData());
+        CCLOG("Notification=%s",buf);
+    });
+    _eventDispatcher->addEventListenerWithFixedPriority(notification_listener, 1);
+
+
+    register_notification_deviceToken_listener =  EventListenerCustom::create(REGISTER_NOTIFICATION_DEVICETOKEN_EVENT, [=](EventCustom* event){
+        char* buf = static_cast<char*>(event->getUserData());
+        CCLOG("register notification deviceToken=%s",buf);
+    });
+    _eventDispatcher->addEventListenerWithFixedPriority(register_notification_deviceToken_listener, 1);
+
+    
+    register_notification_error_listener =  EventListenerCustom::create(REGISTER_NOTIFICATION_ERROR_EVENT, [=](EventCustom* event){
+        char* buf = static_cast<char*>(event->getUserData());
+        CCLOG("register notification error=%s",buf);
+    });
+    _eventDispatcher->addEventListenerWithFixedPriority(register_notification_error_listener, 1);
+
+}
+
+void HelloWorld::removeNotificationListener()
+{
+    _eventDispatcher->removeEventListener(notification_listener);
+    _eventDispatcher->removeEventListener(register_notification_deviceToken_listener);
+    _eventDispatcher->removeEventListener(register_notification_error_listener);
 }

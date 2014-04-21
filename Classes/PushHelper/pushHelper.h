@@ -49,6 +49,9 @@ public:
      */
     void applicationDidReceiveRemoteNotification(const char* notificationJson);
     
+private:
+    void dispatcherNotificationEvent(const char* data, const char* notificationEventType);
+    
 };
 
 #endif /* defined(__pushDemo__pushHelper__) */

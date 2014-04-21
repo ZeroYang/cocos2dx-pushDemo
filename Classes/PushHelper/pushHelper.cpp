@@ -32,24 +32,40 @@ pushHelper::~pushHelper()
 bool pushHelper::applicationDidFinishLaunchingWithNotification(const char* notificationJson)
 {
     CCLOG("applicationDidFinishLaunchingWithNotification=%s",notificationJson);
-    CCNotificationCenter::sharedNotificationCenter()->postNotification(REMOTE_NOTIFICATION, new CCString(notificationJson));
+
+    dispatcherNotificationEvent(notificationJson, NOTIFICATION_EVENT);
+
     return true;
 }
 
 void pushHelper::applicationDidRegisterForRemoteNotificationsWithDeviceToken(const char *deviceToken)
 {
     CCLOG("applicationDidRegisterForRemoteNotificationsWithDeviceToken=%s",deviceToken);
-    CCNotificationCenter::sharedNotificationCenter()->postNotification(REGISTER_REMOTE_NOTIFICATION_DEVICE_TOKEN, new CCString(deviceToken));
+
+    dispatcherNotificationEvent(deviceToken, REGISTER_NOTIFICATION_DEVICETOKEN_EVENT);
 }
 
 void pushHelper::applicationdidFailToRegisterForRemoteNotificationsWithError(const char *error)
 {
     CCLOG("FailToRegisterForRemoteNotificationsWithError=%s",error);
-    CCNotificationCenter::sharedNotificationCenter()->postNotification(REGISTER_REMOTE_NOTIFICATION_ERROR, new CCString(error));
+
+    dispatcherNotificationEvent(error, REGISTER_NOTIFICATION_ERROR_EVENT);
 }
 
 void pushHelper::applicationDidReceiveRemoteNotification(const char* notificationJson)
 {
     CCLOG("applicationDidReceiveRemoteNotification=%s",notificationJson);
-    CCNotificationCenter::sharedNotificationCenter()->postNotification(REMOTE_NOTIFICATION, new CCString(notificationJson));
+
+    dispatcherNotificationEvent(notificationJson, NOTIFICATION_EVENT);
+}
+
+void pushHelper::dispatcherNotificationEvent(const char* data, const char* notificationEventType)
+{
+    auto director = Director::getInstance();
+    char* buf = new char[256];
+    sprintf(buf, "%s", data);
+    EventCustom event(notificationEventType);
+    event.setUserData(buf);
+    director->getEventDispatcher()->dispatchEvent(&event);
+    CC_SAFE_DELETE_ARRAY(buf);
 }

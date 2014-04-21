@@ -17,6 +17,20 @@ public:
     
     // implement the "static create()" method manually
     CREATE_FUNC(HelloWorld);
+    
+public:
+    virtual void onEnter() override;
+    virtual void onExit() override;
+    
+private:
+    void addNotificationListener();
+    void removeNotificationListener();
+    
+private:
+    cocos2d::EventListenerCustom* notification_listener;
+    cocos2d::EventListenerCustom* register_notification_error_listener;
+    cocos2d::EventListenerCustom* register_notification_deviceToken_listener;
+
 };
 
 #endif // __HELLOWORLD_SCENE_H__
