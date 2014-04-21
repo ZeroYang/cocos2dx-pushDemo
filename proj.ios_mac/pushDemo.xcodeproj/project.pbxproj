@@ -24,6 +24,17 @@
 		1AFAF8BE16D35E4900DB1158 /* HelloWorld.png in Resources */ = {isa = PBXBuildFile; fileRef = 1AFAF8BB16D35E4900DB1158 /* HelloWorld.png */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
+		284F3C411905096C00CA2BBE /* BPushConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 284F3C2E1905096C00CA2BBE /* BPushConfig.plist */; };
+		284F3C421905096C00CA2BBE /* libBPush.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 284F3C311905096C00CA2BBE /* libBPush.a */; };
+		284F3C431905096D00CA2BBE /* Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 284F3C341905096C00CA2BBE /* Base64.m */; };
+		284F3C441905096D00CA2BBE /* GzipCompressor.m in Sources */ = {isa = PBXBuildFile; fileRef = 284F3C371905096C00CA2BBE /* GzipCompressor.m */; };
+		284F3C451905096D00CA2BBE /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 284F3C391905096C00CA2BBE /* JSONKit.m */; };
+		284F3C461905096D00CA2BBE /* OpenUDID.m in Sources */ = {isa = PBXBuildFile; fileRef = 284F3C3B1905096C00CA2BBE /* OpenUDID.m */; };
+		284F3C471905096D00CA2BBE /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 284F3C3D1905096C00CA2BBE /* Reachability.m */; };
+		284F3C481905096D00CA2BBE /* pushHelper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 284F3C3F1905096C00CA2BBE /* pushHelper.cpp */; };
+		284F3C4C19050BF900CA2BBE /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 284F3C4B19050BF900CA2BBE /* CFNetwork.framework */; };
+		284F3C4E19050C0D00CA2BBE /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 284F3C4D19050C0D00CA2BBE /* CoreTelephony.framework */; };
+		284F3C5019050C2700CA2BBE /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 284F3C4F19050C2700CA2BBE /* SystemConfiguration.framework */; };
 		288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765A40DF7441C002DB57D /* CoreGraphics.framework */; };
 		503AE0F817EB97AB00D1A890 /* Icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 503AE0F617EB97AB00D1A890 /* Icon.icns */; };
 		503AE10017EB989F00D1A890 /* AppController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 503AE0FB17EB989F00D1A890 /* AppController.mm */; };
@@ -107,20 +118,6 @@
 			remoteGlobalIDString = A03F2ED617814268006731B9;
 			remoteInfo = "CocosDenshion Mac";
 		};
-		1AC6FB02180E9839004C840B /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 1AC6FAE5180E9839004C840B /* cocos2d_libs.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = A03F31FD1781479B006731B9;
-			remoteInfo = "jsbindings Mac";
-		};
-		1AC6FB04180E9839004C840B /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 1AC6FAE5180E9839004C840B /* cocos2d_libs.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 1A6FB53017854BC300CDF010;
-			remoteInfo = "luabindings Mac";
-		};
 		1AC6FB06180E9839004C840B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 1AC6FAE5180E9839004C840B /* cocos2d_libs.xcodeproj */;
@@ -155,20 +152,6 @@
 			proxyType = 2;
 			remoteGlobalIDString = A07A4FB4178387730073F6A7;
 			remoteInfo = "CocosDenshion iOS";
-		};
-		1AC6FB10180E9839004C840B /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 1AC6FAE5180E9839004C840B /* cocos2d_libs.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = A07A5030178387750073F6A7;
-			remoteInfo = "jsbindings iOS";
-		};
-		1AC6FB12180E9839004C840B /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 1AC6FAE5180E9839004C840B /* cocos2d_libs.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 1A119791178526AA00D62A44;
-			remoteInfo = "luabindings iOS";
 		};
 		1AC6FB15180E9959004C840B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -253,8 +236,28 @@
 		1AFAF8BA16D35E4900DB1158 /* CloseSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CloseSelected.png; sourceTree = "<group>"; };
 		1AFAF8BB16D35E4900DB1158 /* HelloWorld.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = HelloWorld.png; sourceTree = "<group>"; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		1D6058910D05DD3D006BFB54 /* pushDemo iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "pushDemo iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1D6058910D05DD3D006BFB54 /* pushDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = pushDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		284F3C2E1905096C00CA2BBE /* BPushConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = BPushConfig.plist; sourceTree = "<group>"; };
+		284F3C301905096C00CA2BBE /* BPush.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BPush.h; sourceTree = "<group>"; };
+		284F3C311905096C00CA2BBE /* libBPush.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libBPush.a; sourceTree = "<group>"; };
+		284F3C331905096C00CA2BBE /* Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Base64.h; sourceTree = "<group>"; };
+		284F3C341905096C00CA2BBE /* Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Base64.m; sourceTree = "<group>"; };
+		284F3C351905096C00CA2BBE /* Base64Defines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Base64Defines.h; sourceTree = "<group>"; };
+		284F3C361905096C00CA2BBE /* GzipCompressor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GzipCompressor.h; sourceTree = "<group>"; };
+		284F3C371905096C00CA2BBE /* GzipCompressor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GzipCompressor.m; sourceTree = "<group>"; };
+		284F3C381905096C00CA2BBE /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONKit.h; sourceTree = "<group>"; };
+		284F3C391905096C00CA2BBE /* JSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONKit.m; sourceTree = "<group>"; };
+		284F3C3A1905096C00CA2BBE /* OpenUDID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenUDID.h; sourceTree = "<group>"; };
+		284F3C3B1905096C00CA2BBE /* OpenUDID.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenUDID.m; sourceTree = "<group>"; };
+		284F3C3C1905096C00CA2BBE /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
+		284F3C3D1905096C00CA2BBE /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
+		284F3C3E1905096C00CA2BBE /* push.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = push.h; sourceTree = "<group>"; };
+		284F3C3F1905096C00CA2BBE /* pushHelper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = pushHelper.cpp; sourceTree = "<group>"; };
+		284F3C401905096C00CA2BBE /* pushHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pushHelper.h; sourceTree = "<group>"; };
+		284F3C4B19050BF900CA2BBE /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.1.sdk/System/Library/Frameworks/CFNetwork.framework; sourceTree = DEVELOPER_DIR; };
+		284F3C4D19050C0D00CA2BBE /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.1.sdk/System/Library/Frameworks/CoreTelephony.framework; sourceTree = DEVELOPER_DIR; };
+		284F3C4F19050C2700CA2BBE /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.1.sdk/System/Library/Frameworks/SystemConfiguration.framework; sourceTree = DEVELOPER_DIR; };
 		288765A40DF7441C002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		503AE0F617EB97AB00D1A890 /* Icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Icon.icns; sourceTree = "<group>"; };
 		503AE0F717EB97AB00D1A890 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -302,8 +305,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				284F3C5019050C2700CA2BBE /* SystemConfiguration.framework in Frameworks */,
+				284F3C4E19050C0D00CA2BBE /* CoreTelephony.framework in Frameworks */,
+				284F3C4C19050BF900CA2BBE /* CFNetwork.framework in Frameworks */,
 				1AC6FB2E180E99EB004C840B /* libbox2d iOS.a in Frameworks */,
 				1AC6FB2F180E99EB004C840B /* libchipmunk iOS.a in Frameworks */,
+				284F3C421905096C00CA2BBE /* libBPush.a in Frameworks */,
 				1AC6FB30180E99EB004C840B /* libcocos2dx iOS.a in Frameworks */,
 				1AC6FB31180E99EB004C840B /* libcocos2dx-extensions iOS.a in Frameworks */,
 				1AC6FB32180E99EB004C840B /* libCocosDenshion iOS.a in Frameworks */,
@@ -364,6 +371,7 @@
 		15AA9C4015B7EC450033D6C2 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				284F3C2C1905096C00CA2BBE /* PushHelper */,
 				1AFAF8B316D35DE700DB1158 /* AppDelegate.cpp */,
 				1AFAF8B416D35DE700DB1158 /* AppDelegate.h */,
 				1AFAF8B516D35DE700DB1158 /* HelloWorldScene.cpp */,
@@ -376,7 +384,7 @@
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				1D6058910D05DD3D006BFB54 /* pushDemo iOS.app */,
+				1D6058910D05DD3D006BFB54 /* pushDemo.app */,
 				5087E76F17EB910900C73F5D /* pushDemo Mac.app */,
 			);
 			name = Products;
@@ -390,17 +398,62 @@
 				1AC6FAFD180E9839004C840B /* libchipmunk Mac.a */,
 				1AC6FAFF180E9839004C840B /* libbox2d Mac.a */,
 				1AC6FB01180E9839004C840B /* libCocosDenshion Mac.a */,
-				1AC6FB03180E9839004C840B /* libjsbindings Mac.a */,
-				1AC6FB05180E9839004C840B /* libluabindings Mac.a */,
 				1AC6FB07180E9839004C840B /* libcocos2dx iOS.a */,
 				1AC6FB09180E9839004C840B /* libcocos2dx-extensions iOS.a */,
 				1AC6FB0B180E9839004C840B /* libchipmunk iOS.a */,
 				1AC6FB0D180E9839004C840B /* libbox2d iOS.a */,
 				1AC6FB0F180E9839004C840B /* libCocosDenshion iOS.a */,
-				1AC6FB11180E9839004C840B /* libjsbindings iOS.a */,
-				1AC6FB13180E9839004C840B /* libluabindings iOS.a */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		284F3C2C1905096C00CA2BBE /* PushHelper */ = {
+			isa = PBXGroup;
+			children = (
+				284F3C2D1905096C00CA2BBE /* baiduPush */,
+				284F3C3E1905096C00CA2BBE /* push.h */,
+				284F3C3F1905096C00CA2BBE /* pushHelper.cpp */,
+				284F3C401905096C00CA2BBE /* pushHelper.h */,
+			);
+			name = PushHelper;
+			path = ../Classes/PushHelper;
+			sourceTree = "<group>";
+		};
+		284F3C2D1905096C00CA2BBE /* baiduPush */ = {
+			isa = PBXGroup;
+			children = (
+				284F3C2E1905096C00CA2BBE /* BPushConfig.plist */,
+				284F3C2F1905096C00CA2BBE /* lib */,
+			);
+			path = baiduPush;
+			sourceTree = "<group>";
+		};
+		284F3C2F1905096C00CA2BBE /* lib */ = {
+			isa = PBXGroup;
+			children = (
+				284F3C301905096C00CA2BBE /* BPush.h */,
+				284F3C311905096C00CA2BBE /* libBPush.a */,
+				284F3C321905096C00CA2BBE /* opensource */,
+			);
+			path = lib;
+			sourceTree = "<group>";
+		};
+		284F3C321905096C00CA2BBE /* opensource */ = {
+			isa = PBXGroup;
+			children = (
+				284F3C331905096C00CA2BBE /* Base64.h */,
+				284F3C341905096C00CA2BBE /* Base64.m */,
+				284F3C351905096C00CA2BBE /* Base64Defines.h */,
+				284F3C361905096C00CA2BBE /* GzipCompressor.h */,
+				284F3C371905096C00CA2BBE /* GzipCompressor.m */,
+				284F3C381905096C00CA2BBE /* JSONKit.h */,
+				284F3C391905096C00CA2BBE /* JSONKit.m */,
+				284F3C3A1905096C00CA2BBE /* OpenUDID.h */,
+				284F3C3B1905096C00CA2BBE /* OpenUDID.m */,
+				284F3C3C1905096C00CA2BBE /* Reachability.h */,
+				284F3C3D1905096C00CA2BBE /* Reachability.m */,
+			);
+			path = opensource;
 			sourceTree = "<group>";
 		};
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
@@ -420,6 +473,9 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				284F3C4F19050C2700CA2BBE /* SystemConfiguration.framework */,
+				284F3C4D19050C0D00CA2BBE /* CoreTelephony.framework */,
+				284F3C4B19050BF900CA2BBE /* CFNetwork.framework */,
 				D6B0611A1803AB670077942B /* CoreMotion.framework */,
 				503AE11A17EB9C5A00D1A890 /* IOKit.framework */,
 				503AE11117EB99EE00D1A890 /* libcurl.dylib */,
@@ -517,7 +573,7 @@
 			);
 			name = "pushDemo iOS";
 			productName = iphone;
-			productReference = 1D6058910D05DD3D006BFB54 /* pushDemo iOS.app */;
+			productReference = 1D6058910D05DD3D006BFB54 /* pushDemo.app */;
 			productType = "com.apple.product-type.application";
 		};
 		5087E73D17EB910900C73F5D /* pushDemo Mac */ = {
@@ -617,20 +673,6 @@
 			remoteRef = 1AC6FB00180E9839004C840B /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		1AC6FB03180E9839004C840B /* libjsbindings Mac.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = "libjsbindings Mac.a";
-			remoteRef = 1AC6FB02180E9839004C840B /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		1AC6FB05180E9839004C840B /* libluabindings Mac.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = "libluabindings Mac.a";
-			remoteRef = 1AC6FB04180E9839004C840B /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		1AC6FB07180E9839004C840B /* libcocos2dx iOS.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -666,20 +708,6 @@
 			remoteRef = 1AC6FB0E180E9839004C840B /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		1AC6FB11180E9839004C840B /* libjsbindings iOS.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = "libjsbindings iOS.a";
-			remoteRef = 1AC6FB10180E9839004C840B /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		1AC6FB13180E9839004C840B /* libluabindings iOS.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = "libluabindings iOS.a";
-			remoteRef = 1AC6FB12180E9839004C840B /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
@@ -706,6 +734,7 @@
 				5087E78417EB970100C73F5D /* Icon-57.png in Resources */,
 				5087E77E17EB970100C73F5D /* Default.png in Resources */,
 				50EF629717ECD46A001EB2F8 /* Icon-58.png in Resources */,
+				284F3C411905096C00CA2BBE /* BPushConfig.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -730,7 +759,13 @@
 				503AE10017EB989F00D1A890 /* AppController.mm in Sources */,
 				503AE10217EB989F00D1A890 /* RootViewController.mm in Sources */,
 				1AFAF8B716D35DE700DB1158 /* AppDelegate.cpp in Sources */,
+				284F3C481905096D00CA2BBE /* pushHelper.cpp in Sources */,
+				284F3C461905096D00CA2BBE /* OpenUDID.m in Sources */,
+				284F3C471905096D00CA2BBE /* Reachability.m in Sources */,
 				503AE10117EB989F00D1A890 /* main.m in Sources */,
+				284F3C431905096D00CA2BBE /* Base64.m in Sources */,
+				284F3C441905096D00CA2BBE /* GzipCompressor.m in Sources */,
+				284F3C451905096D00CA2BBE /* JSONKit.m in Sources */,
 				1AFAF8B816D35DE700DB1158 /* HelloWorldScene.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -825,7 +860,8 @@
 				);
 				INFOPLIST_FILE = ios/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
-				LIBRARY_SEARCH_PATHS = "";
+				LIBRARY_SEARCH_PATHS = /Users/zeroyang/Documents/github/pushDemo/Classes/PushHelper/baiduPush/lib;
+				PRODUCT_NAME = pushDemo;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "";
@@ -854,7 +890,8 @@
 				);
 				INFOPLIST_FILE = ios/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
-				LIBRARY_SEARCH_PATHS = "";
+				LIBRARY_SEARCH_PATHS = /Users/zeroyang/Documents/github/pushDemo/Classes/PushHelper/baiduPush/lib;
+				PRODUCT_NAME = pushDemo;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "";
