@@ -2,7 +2,10 @@
 
 ###前言
 
-使用推送消息可提高玩家的粘性。提醒用户，召回玩家。
+使用推送消息，可提醒用户，召回玩家。延长游戏的寿命和收益！下面我们就一起来学习，cocos2d-x iOS集成push。
+
+收到push消息：
+![img](Push1.png)![img](Push2.png)
 
 本文主要内容：
 
@@ -27,11 +30,19 @@
     无论是iPhone客户端跟APNS,还是Provider和APNS都需要通过证书进行连接的
 ### 创建工程
 
-工程基于 cocos2d-x 2.2 引擎, 针对ios.
+工程基于 cocos2d-x-3.0rc2 版本, 针对ios平台.
 
-[cocos2d-x 2.2 下载地址](http://cdn.cocos2d-x.org/cocos2d-x-2.2.2.zip)
-如果已经有cocos2d-x 引擎可以跳过，直接进入cocos2d-x-2.2/tools/project-creator目录,运行脚本
-./create_project.py -project paoku -package com.polyvi.pushDemo -language cpp 创建工程。
+[cocos2d-x-3.0rc2 下载地址](http://www.cocos2d-x.org/filedown/cocos2d-x-3.0rc2-cn)
+如果已经有cocos2d-x 引擎可以跳过下载。解压文件进入该目录
+创建工程
+
+```
+    $ cd cocos2d-x
+    $ ./setup.py
+    $ source FILE_TO_SAVE_SYSTEM_VARIABLE
+    $ cocos new pushDemo -p com.your_company.pushDemo -l cpp -d /home
+    $ cd /home/pushDemo
+```
 
 ### push相关配置
 
@@ -129,7 +140,7 @@ public:
 
 * 在AppController.mm加入 ios remoteNotification 相关实现
 
-1. 在application: didFinishLaunchingWithOptions:注册push的种类，并处理启动时收到push
+1.在application: didFinishLaunchingWithOptions:注册push的种类，并处理启动时收到push
 
 ```
     //======================push========================
@@ -154,14 +165,14 @@ public:
     
     //======================push========================
 ```
-2. 在application: didRegisterForRemoteNotificationsWithDeviceToken:处理收到注册push成功返回的device token：
+2.在application: didRegisterForRemoteNotificationsWithDeviceToken:处理收到注册push成功返回的device token：
 
 ```
     NSLog(@"push deviceToken:%@",deviceToken);
     
     pushHelper::sharedPushHelper()->applicationDidRegisterForRemoteNotificationsWithDeviceToken([[deviceToken description] cStringUsingEncoding:NSUTF8StringEncoding]);
 ```
-3. 在application: didReceiveRemoteNotification: 处理app运行状态下接收到的Push消息：
+3.在application: didReceiveRemoteNotification: 处理app运行状态下接收到的Push消息：
 
 ```
     NSLog(@"Receive Notify: %@", [userInfo description]);
@@ -169,7 +180,7 @@ public:
 
     pushHelper::sharedPushHelper()->applicationDidReceiveRemoteNotification([[userInfo description] cStringUsingEncoding:NSUTF8StringEncoding]);
 ```
-4. 在application: didFailToRegisterForRemoteNotificationsWithError:处理注册push失败
+4.在application: didFailToRegisterForRemoteNotificationsWithError:处理注册push失败
 
 ```
     pushHelper::sharedPushHelper()->applicationdidFailToRegisterForRemoteNotificationsWithError([[error description] cStringUsingEncoding:NSUTF8StringEncoding]);
@@ -177,32 +188,49 @@ public:
 
 * 实现pushHelper.cpp
 
-使用CCNotificationCenter 将通知派发，更灵活！降低耦合度！
+在cocos2dx 3.0的版本中 CCNotificationCenter 被废弃。我们
+使用自定义事件进行推送通知派发。
 
 ```
 bool pushHelper::applicationDidFinishLaunchingWithNotification(const char* notificationJson)
 {
     CCLOG("applicationDidFinishLaunchingWithNotification=%s",notificationJson);
-    CCNotificationCenter::sharedNotificationCenter()->postNotification(REMOTE_NOTIFICATION, new CCString(notificationJson));
+
+    dispatcherNotificationEvent(notificationJson, NOTIFICATION_EVENT);
+
     return true;
 }
 
 void pushHelper::applicationDidRegisterForRemoteNotificationsWithDeviceToken(const char *deviceToken)
 {
     CCLOG("applicationDidRegisterForRemoteNotificationsWithDeviceToken=%s",deviceToken);
-    CCNotificationCenter::sharedNotificationCenter()->postNotification(REGISTER_REMOTE_NOTIFICATION_DEVICE_TOKEN, new CCString(deviceToken));
+
+    dispatcherNotificationEvent(deviceToken, REGISTER_NOTIFICATION_DEVICETOKEN_EVENT);
 }
 
 void pushHelper::applicationdidFailToRegisterForRemoteNotificationsWithError(const char *error)
 {
     CCLOG("FailToRegisterForRemoteNotificationsWithError=%s",error);
-    CCNotificationCenter::sharedNotificationCenter()->postNotification(REGISTER_REMOTE_NOTIFICATION_ERROR, new CCString(error));
+
+    dispatcherNotificationEvent(error, REGISTER_NOTIFICATION_ERROR_EVENT);
 }
 
 void pushHelper::applicationDidReceiveRemoteNotification(const char* notificationJson)
 {
     CCLOG("applicationDidReceiveRemoteNotification=%s",notificationJson);
-    CCNotificationCenter::sharedNotificationCenter()->postNotification(REMOTE_NOTIFICATION, new CCString(notificationJson));
+
+    dispatcherNotificationEvent(notificationJson, NOTIFICATION_EVENT);
+}
+
+void pushHelper::dispatcherNotificationEvent(const char* data, const char* notificationEventType)
+{
+    auto director = Director::getInstance();
+    char* buf = new char[256];
+    sprintf(buf, "%s", data);
+    EventCustom event(notificationEventType);
+    event.setUserData(buf);
+    director->getEventDispatcher()->dispatchEvent(&event);
+    CC_SAFE_DELETE_ARRAY(buf);
 }
 ```
 
@@ -210,10 +238,10 @@ void pushHelper::applicationDidReceiveRemoteNotification(const char* notificatio
 ### push测试
 
 push 消息的推送 需要客户端和服务器的支持。  
-自己搭建以推送服务器还是比较麻烦的。
-现在国内主流的第三方push方案（百度云推送、极光推送、个推）,大致都提供push集成客户端SDK 和 push消息推送控制台 或 消息推送SDK，推送结果统计。根据应用ID注册，消息推送条数 决定收费。
+自己搭建推送服务器(对于没有服务器编程经验的人)比较麻烦。  
+现在国内主流的第三方push方案（百度云推送、极光推送、个推）,都提供push集成客户端SDK 和 push消息推送控制台 或 消息推送服务SDK，推送结果统计。根据应用ID注册，消息推送条数 决定收费。开发者可以灵活选择使用。
 
-在此，本demo使用免费百度云推送方案。
+在此，本demo使用免费百度云推送方案，使用百度云推送的推送控制台测试。
 
 * 集成百度云推送
 [参考文档](http://developer.baidu.com/wiki/index.php?title=docs/cplat/push/guideios#SDK.E9.9B.86.E6.88.90)
@@ -229,38 +257,51 @@ push 消息的推送 需要客户端和服务器的支持。
 
 ### push使用
 
-在想使用remoteNotification 消息的scene加入如下代码：
+在想使用推送通知消息的地方加入监听推送通知事件的代码：
 
-* 监听remoteNotification
-
-```
-    //listen push
-    CCNotificationCenter::sharedNotificationCenter()->addObserver(this, callfuncO_selector(HelloWorld::applicationDidReceiveRemoteNotification),
-                                                                  REMOTE_NOTIFICATION, NULL);
-    
-    CCNotificationCenter::sharedNotificationCenter()->addObserver(this, callfuncO_selector(HelloWorld::applicationDidRegisterForRemoteNotificationsWithDeviceToken),
-                                                                  REGISTER_REMOTE_NOTIFICATION_DEVICE_TOKEN, NULL);
-    
-    CCNotificationCenter::sharedNotificationCenter()->addObserver(this, callfuncO_selector(HelloWorld::applicationdidFailToRegisterForRemoteNotificationsWithError),
-                                                                  REGISTER_REMOTE_NOTIFICATION_ERROR, NULL);
-```
-
-* 处理remoteNotification 消息
+* 在HelloWorldScene.cpp中监听remoteNotification
 
 ```
-void HelloWorld::applicationDidReceiveRemoteNotification(CCString* notificationJson)
+//listen & handle push message
+void HelloWorld::onEnter()
 {
-    CCLOG("HelloWorld::applicationDidReceiveRemoteNotification=%s",notificationJson->getCString());
+    addNotificationListener();
 }
 
-void HelloWorld::applicationDidRegisterForRemoteNotificationsWithDeviceToken(CCString* deviceToken)
+void HelloWorld::onExit()
 {
-    CCLOG("HelloWorld::applicationDidRegisterForRemoteNotificationsWithDeviceToken=%s",deviceToken->getCString());
+    removeNotificationListener();
 }
 
-void HelloWorld::applicationdidFailToRegisterForRemoteNotificationsWithError(CCString* error)
+void HelloWorld::addNotificationListener()
 {
-    CCLOG("HelloWorld::FailToRegisterForRemoteNotificationsWithError=%s",error->getCString());
+    notification_listener =  EventListenerCustom::create(NOTIFICATION_EVENT, [=](EventCustom* event){
+        char* buf = static_cast<char*>(event->getUserData());
+        CCLOG("Notification=%s",buf);
+    });
+    _eventDispatcher->addEventListenerWithFixedPriority(notification_listener, 1);
+
+
+    register_notification_deviceToken_listener =  EventListenerCustom::create(REGISTER_NOTIFICATION_DEVICETOKEN_EVENT, [=](EventCustom* event){
+        char* buf = static_cast<char*>(event->getUserData());
+        CCLOG("register notification deviceToken=%s",buf);
+    });
+    _eventDispatcher->addEventListenerWithFixedPriority(register_notification_deviceToken_listener, 1);
+
+    
+    register_notification_error_listener =  EventListenerCustom::create(REGISTER_NOTIFICATION_ERROR_EVENT, [=](EventCustom* event){
+        char* buf = static_cast<char*>(event->getUserData());
+        CCLOG("register notification error=%s",buf);
+    });
+    _eventDispatcher->addEventListenerWithFixedPriority(register_notification_error_listener, 1);
+
+}
+
+void HelloWorld::removeNotificationListener()
+{
+    _eventDispatcher->removeEventListener(notification_listener);
+    _eventDispatcher->removeEventListener(register_notification_deviceToken_listener);
+    _eventDispatcher->removeEventListener(register_notification_error_listener);
 }
 ```
 
@@ -274,7 +315,7 @@ void HelloWorld::applicationdidFailToRegisterForRemoteNotificationsWithError(CCS
 
 ### 后记
 
-本demo 基于2.2版本实现，但是使用其他版本集成push功能与之类似，没有太大变化。 开发者可以灵活选择。 
+本demo 基于3.0 rc2版本实现，但是使用其他版本集成push功能与之类似，没有太大变化。 开发者可以灵活选择。 
 push 消息的处理 和 使用第三方推送SDK集成也可以灵活选择。  
  完整资源下载地址[xxx]()
 
